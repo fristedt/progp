@@ -32,8 +32,8 @@ int main(int argc, char * argv[]) {
 
     writePost(p);
 
+    free(p->next);
     free(p);
-    // free(p->next);
 
     return 0;
 }
