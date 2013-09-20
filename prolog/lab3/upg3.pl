@@ -3,6 +3,8 @@ link(p1, p2, 2).
 link(p1, p3, 4).
 link(p2, p1, 2).
 link(p2, p3, 6).
+link(p1, p4, 8).
+link(p0, p5, 4).
 
 shortest_path(X, Y, Distance) :-
   shortest_path(X, Y, Distance, 0).
