@@ -36,19 +36,23 @@ int main(int argc, char * argv[]) {
             break;
         case 3:
             printf("Vem söker du? ");
-            fscanf(stdin, "%s", tmp.name);
+            scanf("%s", tmp.name);
             tmp_pek = find((*compare_names), tmp, list);
             if (tmp_pek != NULL) writePost(tmp_pek);
             else printf("Hittade inte namnet '%s'\n", tmp.name);
             break;
         case 4:
+            printf("Vilket BMI söker du? ");
+            scanf("%f", &tmp.bmi);
+            tmp_pek = find((*compare_bmi), tmp, list);
+            if (tmp_pek != NULL) writePost(tmp_pek);
+            else printf("Hittade inte BMI '%.2f'\n", tmp.bmi);
             break;
         case 5:
             writeList(list);
             break;
         case 6:
-            /* Ta bort person implementeras fritt.
-               Lägg till lämplid metod i nod */
+            delete(& list);
             break;
         }
         

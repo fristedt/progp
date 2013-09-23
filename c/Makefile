@@ -1,4 +1,4 @@
-FLAGS = -W -g 
+FLAGS = -Wall -g 
 
 all:    utfil.exe
 

@@ -1,7 +1,11 @@
+#ifndef NOD_H
+#define NOD_H 
+#define NAME_LENGTH 40
 struct post {
-    char name[40]; /* <- Ful hårdkodning */
+    char name[NAME_LENGTH]; /* <- Ful hårdkodning */
     float bmi;
     struct post * next;
+    struct post * prev;
 };
 
 typedef struct post Post;
@@ -19,5 +23,7 @@ int compare_bmi(Post * a, Post * b);
 
 void insert(Post ** list);
 
-void load_names(char * filename, Post ** list);
+void delete(Post ** list);
 
+void load_names(char * filename, Post ** list);
+#endif /* NOD_H */

@@ -7,7 +7,7 @@ link(p1, p4, 8).
 link(p0, p5, 4).
 
 shortest_path(X, Y, Distance) :-
-  shortest_path(X, Y, Distance, 0).
+  shortest_path(X, Y, Distance, 0), !.
 
 shortest_path(X, Y, Distance, Counter) :-
   C1 is Counter + 1,

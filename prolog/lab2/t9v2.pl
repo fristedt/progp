@@ -45,7 +45,7 @@ filter([_|Rest], Char, Filtered) :-
 test:-
 	words(Words),
 	statistics(runtime,_),
-	t9([2, 2], Words, Word),
+	t9([3, 2, 7, 8, 4], Words, Word),
 	statistics(runtime,[_, Time]),
 	format("one solution is \"~s\", found in ~w ms~n" ,[Word, Time]).
 

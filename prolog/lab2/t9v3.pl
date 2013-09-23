@@ -31,7 +31,7 @@ test:-
 	statistics(runtime,_),
 	build(Words, Tree),!,
 	statistics(runtime,[_,Build]),
-	t9([3,2,7,8], Tree, Word),
+	t9([3,2,7,8, 4], Tree, Word),
 	statistics(runtime,[_, Time]),
 	format("one solution is \"~s\", found in ~w ms, (building of tree in ~w ms)~n" ,[Word, Time, Build]).
 
