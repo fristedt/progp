@@ -18,3 +18,4 @@ find(X, Y, Distance, Visited) :-
   link(X, Z, D1),
   find(Z, Y, D2, [X|Visited]),
   Distance is D1 + D2.
+
