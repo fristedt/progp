@@ -1,0 +1,7 @@
+        Name       Value          Size      Adress
+  long_long1         123             8        ffbff8c8
+  long_long2        -456             8        ffbff8c0
+       uint1         789             4        ffbff8bc
+       uint2           0             4        ffbff8b8
+       chars        FOUR             5        ffbff8b0
+      floaty    1.234560             4        ffbff8ac
