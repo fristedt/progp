@@ -14,6 +14,15 @@ void skrivMeny() {
     printf("\t Vad vill du göra? ");
 }
 
+void dealloc(Post * list) {
+  Post * p;
+  while (list != NULL) {
+    p = list;
+    list = list->next;
+    free(p);
+  }
+}
+
 int main(int argc, char * argv[]) {
 
     Post * list = NULL;
@@ -58,8 +67,8 @@ int main(int argc, char * argv[]) {
         
     }
 
+    dealloc(list);
     printf("\n\nHej då!\n");
     return 0;
 }
-
 
