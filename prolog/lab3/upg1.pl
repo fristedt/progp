@@ -13,8 +13,7 @@ path(X, Y, Distance) :-
   path(X, Z, D2),
   Distance is D1 + D2.
 
-test :-
-  path(p0, p1, 5),
-  \+ path(p10, p1, _),
-  \+ path(p0, p12, _),
-  \+ path(p21, p54, _).
+%  path(p0, p1, 5). % True
+%  \+ path(p10, p1, _). % True
+%  \+ path(p0, p12, _). % True
+%  \+ path(p21, p54, _). % True

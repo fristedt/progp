@@ -7,15 +7,17 @@ link(p1, p4, 8).
 link(p0, p5, 4).
 
 shortest_path(X, Y, Distance) :-
-  link(X, _, _),
-  link(_, Y, _),
+  link(X, _, _), % Make sure that there exists a link with X as starting node.
+  link(_, Y, _), % Make sure that there exists a link with Y as end node.
   shortest_path(X, Y, Distance, 0), !.
 
+% If there exists a path of length Distance, return true.
 shortest_path(X, Y, Distance, Counter) :-
   C1 is Counter + 1,
   find(X, Y, C1),
   Distance = C1.
 
+% If not, increment and repeat.
 shortest_path(X, Y, Distance, Counter) :-
   C1 is Counter + 1,
   \+ find(X, Y, C1),
@@ -41,3 +43,5 @@ test :-
   % p0 -> p1 -> p2 -> p3 = 5 + 2 + 1 = 8
   % The algorithm should choose the second path, which it does.
   shortest_path(p0, p3, 8). % true
+  
+  % The algorithm has also been tested with the same tests as upg1 and upg2.
