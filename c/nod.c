@@ -135,5 +135,6 @@ void load_names(char * filename, Post ** list) {
       *list = p;
     }
   }
+  fclose(fil);
 }
 

@@ -1,0 +1,29 @@
+en:1:Welcome to the bank! (1) Balance, (2) Withdrawal, (3) Deposit, (4) Change language, (5) Exit
+en:2:Your balance is:  
+en:3:Input card number: 
+en:4:Input password:
+en:5:Incorrect login.
+en:6:How much money do you wish to withdraw?
+en:7:You do not have that much money.
+en:8:How much do you wish to deposit?
+en:9:Good bye!
+en:10:Avaliable languages:
+en:11:That is not an avaliable language.
+en:12:Choose language:
+en:13:Enter code:
+en:14:Wrong code.
+
+sv:1:Välkommen till banken! (1) Saldo, (2) Uttag, (3) Insättning, (4) Byt språk, (5) Avsluta
+sv:2:Ditt saldo är:
+sv:3:Ange kortnummer:
+sv:4:Ange lösenord:
+sv:5:Felaktiga uppgifter.
+sv:6:Hur mycket pengar vill du ta ut?
+sv:7:Du har inte så mycket pengar.
+sv:8:Hur mycket pengar vill du sätta in?
+sv:9:Hej då!
+sv:10:Tillgängliga språk: 
+sv:11:Det där är inte ett tillgängligt språk.
+sv:12:Välj språk:
+sv:13:Ange engångskod:
+sv:14:Fel kod.

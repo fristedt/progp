@@ -1,18 +1,24 @@
 import java.io.*;   
 import java.net.*;  
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
    @author Snilledata
 */
 public class ATMClient {
     private static int connectionPort = 8989;
+    private static Scanner scanner = new Scanner(System.in);
+    private static PrintWriter out = null;
+    private static BufferedReader in = null;
+    private static String prompt = "> ";
+    private static String lang = "en";
+    public static final String CLIENT_STRINGS_FILENAME = "client_strings.txt";
+    private static ArrayList<Integer> usedCodes;
     
     public static void main(String[] args) throws IOException {
-        
+        usedCodes = new ArrayList<Integer>();
         Socket ATMSocket = null;
-        PrintWriter out = null;
-        BufferedReader in = null;
         String adress = "";
 
         try {
@@ -34,41 +40,127 @@ public class ATMClient {
             System.exit(1);
         }
 
-        System.out.println("Contacting bank ... ");
-        System.out.println(in.readLine()); 
+        listen();
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("> ");
-        int menuOption = scanner.nextInt();
-        int userInput;
-        out.println(menuOption);
-        while(menuOption < 4) {
-                if(menuOption == 1) {
-                        System.out.println(in.readLine()); 
-                        System.out.println(in.readLine());
-                        System.out.print("> ");
-                        menuOption = scanner.nextInt();
-                        out.println(menuOption);           
-                } else if (menuOption > 3) {
-                    break;
-                }	
-                else {
-                    System.out.println(in.readLine()); 
-                    userInput = scanner.nextInt();
-                    out.println(userInput);
-                    String str;
-                    do {
-                        str = in.readLine();
-                        System.out.println(str);
-                    } while (! str.startsWith("(1)"));
-                    System.out.print("> ");
-                    menuOption = scanner.nextInt();
-                    out.println(menuOption);           
-                }	
-        }		
-		
         out.close();
         in.close();
         ATMSocket.close();
     }
-}   
+
+    /* Main loop. */
+    private static void listen() throws IOException {
+        String line;
+        while ((line = in.readLine()) != null) {
+            Packet call = Packet.parseString(line);
+            switch (call.getOpcode()) {
+                case OUTPUT:
+                    System.out.println(call.getValue());
+                    break;
+
+                case OUTPUT_STRING:
+                    printString(call.getValue());
+                    break;
+
+                case INPUT:
+                    Packet input = input();
+                    out.println(input);
+                    break;
+
+                case CHANGE_LANGUAGE:
+                    changeLanguage();
+                    break;
+
+                case STRINGS:
+                    recieveStrings();
+                    break;
+            }
+        }
+    }
+
+    /* Goes through the file containing strings and returns */
+    /* the string with the correct language and index. */
+    private static void printString(int stringIndex) {
+        File file = new File(CLIENT_STRINGS_FILENAME);
+        try {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(
+                        new FileInputStream(file), "UTF-8"));
+            String line;
+            String split[];
+            while ((line = in.readLine()) != null) {
+                split = line.split(":");
+                if (!split[0].equals(lang)) 
+                    continue;
+
+                int index = Integer.valueOf(split[1]);
+                if (index != stringIndex)
+                    continue;
+
+                System.out.println(split[2]);
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        System.out.println("Could not find string.");
+    }
+
+    /* Handles client input. Return a packet to send back to server. */
+    private static Packet input() {
+        System.out.print(prompt);
+        int input = scanner.nextInt();
+        Packet packet = new Packet(Opcode.RESPONSE, input);
+
+        return packet;
+    }  
+
+    /* Handles the changing of language. */
+    private static void changeLanguage() {
+        File file = new File(CLIENT_STRINGS_FILENAME);
+        ArrayList<String> languages = new ArrayList<String>();
+        try {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(
+                        new FileInputStream(file), "UTF-8"));
+            String line;
+            String split[];
+            while ((line = in.readLine()) != null) {
+                split = line.split(":");
+                /* If the language is not already in the list of languages, */
+                /*    add it to the list. */
+                if (!languages.contains(split[0])) {
+                    languages.add(split[0]);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        printString(Strings.AVALIABLE_LANGUAGES);
+        for (String language : languages) {
+            System.out.println(language);
+        }
+        
+        printString(Strings.LANGUAGE_PROMPT);
+        String input = scanner.next();
+        if (!languages.contains(input)) {
+            printString(Strings.NOT_A_LANGUAGE);
+            return;
+        }
+        lang = input;
+    }
+
+    /* Used to recieve file containing strings to print. */
+    private static void recieveStrings() {
+        try {
+            PrintWriter writer = new PrintWriter(CLIENT_STRINGS_FILENAME, "UTF-8");
+            String line;
+            while (!(line = in.readLine()).equals("done")) {
+                writer.println(line);
+            }
+            writer.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+}
