@@ -18,16 +18,13 @@ public class ATMServerThread extends Thread {
         usedCodes = new ArrayList<Integer>();
     }
 
-    private boolean validateUser(String cardNumber, String password) {
-        return ATMServer.users.containsKey(cardNumber+password);
-    }
-
     public void run(){
         try {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader
                 (new InputStreamReader(socket.getInputStream()));
 
+            /* Update the list of strings and start main loop.  */
             pushStrings();
             listen();
 
@@ -95,6 +92,7 @@ public class ATMServerThread extends Thread {
                         break;
                     }
                     
+                    /* Add the used code to the list of used codes and make the withdrawal. */
                     usedCodes.add(code);
                     ATMServer.users.put(userHash, deposit-withdrawal);
                     ATMServer.writeUsers();
@@ -108,6 +106,7 @@ public class ATMServerThread extends Thread {
                     ATMServer.writeUsers();
                     break;
                 case CHANGE_LANGUAGE:
+                    /* Let user change language.  */
                     out.println(new Packet(Opcode.CHANGE_LANGUAGE, 0));
                     break;
                 case EXIT:

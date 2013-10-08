@@ -54,14 +54,17 @@ public class ATMClient {
             Packet call = Packet.parseString(line);
             switch (call.getOpcode()) {
                 case OUTPUT:
+                    /* Output the value to stdout.  */
                     System.out.println(call.getValue());
                     break;
 
                 case OUTPUT_STRING:
+                    /* Output the string with the value as index.  */
                     printString(call.getValue());
                     break;
 
                 case INPUT:
+                    /* Let user input an int and send it back to the server.  */
                     Packet input = input();
                     out.println(input);
                     break;
@@ -71,6 +74,7 @@ public class ATMClient {
                     break;
 
                 case STRINGS:
+                    /* Recieve an updated list of strings.  */
                     recieveStrings();
                     break;
             }

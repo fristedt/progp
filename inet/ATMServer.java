@@ -17,15 +17,19 @@ public class ATMServer {
     private static File userFile;
 
     public static void main(String[] args) throws IOException {
+        /* Copy all the users in the file users.txt into the HashMap users. */
+        /* Also add their balances. */
         userFile = new File("users.txt");
         getUsers();
         
         ServerSocket serverSocket = null;
+
+        /* Start the thread responsible for checking when it's time to update the */
+        /* file containing the different strings. */
         new FileTransferThread().start();
        
         boolean listening = true;
         serverThreads = new ArrayList<ATMServerThread>();
-        
         try {
             serverSocket = new ServerSocket(connectionPort); 
         } catch (IOException e) {
@@ -35,6 +39,8 @@ public class ATMServer {
 	
         System.out.println("Bank started listening on port: " + connectionPort);
         while (listening) {
+            /* When a client has connected, assign a new thread to the client and add */
+            /* the thread to the list of threads. */
             ATMServerThread serverThread = new ATMServerThread(serverSocket.accept());
             serverThread.start();
             serverThreads.add(serverThread);
@@ -62,6 +68,7 @@ public class ATMServer {
         }
     }
 
+    /* Writes user hashes and balances to file. */
     public static void writeUsers() {
         File tmpFile = new File("tmp.txt");
         try {
@@ -76,6 +83,7 @@ public class ATMServer {
         }
     }
 
+    /* Tell all active threads to push strings to their respective clients. */
     public static void pushStrings() {
         for (ATMServerThread serverThread : serverThreads) {
             serverThread.pushStrings();
