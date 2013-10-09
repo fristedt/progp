@@ -1,4 +1,4 @@
-en:1:Welcome to the bank! (1) Balance, (2) Withdrawal, (3) Deposit, (4) Change language, (5) Exit
+en:1:Welcome to the bank TEST! (1) Balance, (2) Withdrawal, (3) Deposit, (4) Change language, (5) Exit
 en:2:Your balance is:  
 en:3:Input card number: 
 en:4:Input password:
@@ -13,7 +13,7 @@ en:12:Choose language:
 en:13:Enter code:
 en:14:Wrong code.
 
-sv:1:Välkommen till banken! (1) Saldo, (2) Uttag, (3) Insättning, (4) Byt språk, (5) Avsluta
+sv:1:Välkommen till banken TESTAET! (1) Saldo, (2) Uttag, (3) Insättning, (4) Byt språk, (5) Avsluta
 sv:2:Ditt saldo är:
 sv:3:Ange kortnummer:
 sv:4:Ange lösenord:

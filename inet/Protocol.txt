@@ -1,30 +1,48 @@
-Data
-Protokollet arbetar med 64-bitar stora paket. I dessa paket representerar de 4 minsta signifikanta bitarna en operationskod. De 32 nästkommande bitarna representerar ett heltaltsvärde. Resterande bitar används ej.
+Data 
+Protokollet arbetar med 64-bitar stora paket. I dessa paket representerar
+de 4 minsta signifikanta bitarna en operationskod. De 32 nästkommande bitarna
+representerar ett heltaltsvärde. Resterande bitar används ej.
 
 1111 1111  1111 1111  1111 1111  1111 1111 0000  
 |HELTALSVÄRDE                              |Opcode
 
-Operationskoder   Kod  Handling
+Operationskoder   Kod  Handling 
 OUTPUT              0  Skriv ut heltalsvärde.
-INPUT               1  Ta ett heltal från stdin och returnera till server. 
+INPUT               1  Ta ett heltal från stdin och returnera till server.
 OUTPUT_STRING       2  Skriv ut en sträng med heltalsvärdet som index.
-CHANGE_LANGUAGE     3  Låt användaren välja språk.
-STRINGS             4  Uppdatera listan med strängar.
+CHANGE_LANGUAGE     3  Låt användaren välja språk.  
+STRINGS             4  Uppdatera listan med strängar.  
 RESPONSE            5  Saknar handling. Används vid svar till INPUT.
 
-Eftersom paket i protokollet endast skickar heltal behövdes en speciallösning för att skriva ut strängar. Denna lösning är att ha en indexerad lista med strängar på klientsidan. Om en av dessa strängar ska skrivas ut behöver servern bara skicka ut rätt index så kan klienten leta reda på rätt sträng och därefter skriva ut den. 
+Eftersom paket i protokollet endast skickar heltal behövdes en speciallösning
+för att skriva ut strängar. Denna lösning är att ha en indexerad lista med
+strängar på klientsidan. Om en av dessa strängar ska skrivas ut behöver servern
+bara skicka ut rätt index så kan klienten leta reda på rätt sträng och därefter
+skriva ut den. 
 
-Denna lista kan behöva uppdateras. Detta görs genom att ändra listan med strängar på serversidan, och därefter skicka ett paket med operationskod STRINGS till klienten. Då ska klienten göra sig redo för att ta emot en ospecifierad mängd rader och spara dessa. Klienten återgår till sitt normala läge när servern meddelar att hela listan är skickad.  
+Denna lista kan behöva uppdateras. Detta görs genom att ändra listan med
+strängar på serversidan, och därefter skicka ett paket med operationskod STRINGS
+till klienten. Då ska klienten göra sig redo för att ta emot en ospecifierad
+mängd rader och spara dessa. Klienten återgår till sitt normala läge när servern
+meddelar att hela listan är skickad.  
 
-Flöde
-Det finns två typiska flöden för protokollet. Det mest använda går ut på att servern skickar en instruktion till klienten följt av att klienten utför handlingen. När klienten är klar med handlingen tar den emot nästa instruktion från servern. Detta flöde gäller för följande operationskoder: OUTPUT, OUTPUT_STRING samt CHANGE_LANGUAGE. I detta fall gäller envägskommunikation. 
+Flöde 
+Det finns två typiska flöden för protokollet. Det mest använda går ut på
+att servern skickar en instruktion till klienten följt av att klienten utför
+handlingen. När klienten är klar med handlingen tar den emot nästa instruktion
+från servern. Detta flöde gäller för följande operationskoder: OUTPUT,
+OUTPUT_STRING samt CHANGE_LANGUAGE. I detta fall gäller envägskommunikation. 
 
-Server -> Klient
+            Server -> Klient
 
-När operationskoden är INPUT ser flödet lite annorlunda ut. Då kommer servern att skicka ett paket med operationskod INPUT, vilket klienten tar emot. Klienten låter då användaren mata in ett heltal, vilket sedan skickas tillbaka till servern. I detta fall gäller alltså tvåvägskommunikation.
+När operationskoden är INPUT ser flödet lite annorlunda ut. Då kommer servern
+att skicka ett paket med operationskod INPUT, vilket klienten tar emot. Klienten
+låter då användaren mata in ett heltal, vilket sedan skickas tillbaka till
+servern. I detta fall gäller alltså tvåvägskommunikation.
 
-   /-------v
-Server  Klient
-   ^-------/
+               /-------v 
+             Server  Klient
+               ^-------/
 
-Det tredje fallet gäller när listan med strängar ska uppdateras. Detta flöde har redan beskrivits under datasektionen av denna specifikation.
+Det tredje fallet gäller när listan med strängar ska uppdateras. Detta flöde har
+redan beskrivits under datasektionen av denna specifikation.
