@@ -1,11 +1,15 @@
 module MolSeq where
-data MolSeq = DNA {name :: String, mySequence :: String}
-            | Protein {name :: String, mySequence :: String} deriving (Show)
+data SeqType = DNA | Protein deriving (Eq, Enum, Show)
+data MolSeq = MolSeq {
+            name :: String
+            , mySequence :: String
+            , seqtype :: SeqType} 
+            deriving (Show)
 
 string2seq :: String -> String -> MolSeq
 string2seq name sequence
-  | isDNA sequence = DNA name sequence
-  | otherwise      = Protein name sequence
+  | isDNA sequence = MolSeq name sequence DNA
+  | otherwise      = MolSeq name sequence Protein
 
 isDNA :: String -> Bool
 isDNA [] = True
@@ -22,10 +26,14 @@ seqSequence molseq = (mySequence molseq)
 seqLength :: MolSeq -> Int 
 seqLength molseq = length (mySequence molseq)
 
+seqType :: MolSeq -> SeqType
+seqType molseq = (seqtype molseq)
+
 seqDistance :: MolSeq -> MolSeq -> Float
-seqDistance (DNA _ seq1) (DNA _ seq2) = jukesCantor seq1 seq2 0 0
-seqDistance (Protein _ seq1) (Protein _ seq2) = poisson seq1 seq2 0 0 
-seqDistance _ _ = error "Can't compare protein with DNA."
+seqDistance (MolSeq _ seq1 seqType1) (MolSeq _ seq2 seqType2)
+  | seqType1 /= seqType2 = error "Can't compare protein with DNA."
+  | seqType1 == DNA      = jukesCantor seq1 seq2 0 0
+  | seqType1 == Protein  = poisson seq1 seq2 0 0 
 
 -- Assumes equal length for seq1 and seq2.
 jukesCantor :: String -> String -> Float -> Float -> Float

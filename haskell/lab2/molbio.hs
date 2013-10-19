@@ -1,6 +1,6 @@
 module Molbio where
 import MolSeq
---import Profile
+import Profile
 --import Evol
 --import Neighbor
 
@@ -87,12 +87,12 @@ fam5 = [   ("5A1_Human","DQTFISIVDWARRCMVFKELEVADQMTLLQNCWSELLVFDHIYRQVQHLLVTGQE
 
 
 -- testdistance = distanceMatrix (seqdata fam2)
-
+-- 
 -- This function gives a lot of output...
--- profiles = map fromMolSeqs 
-               -- (map seqdata  [fam1, fam2, fam3, fam4, fam5])
+profiles = map fromMolSeqs 
+               (map seqdata  [fam1, fam2, fam3, fam4, fam5])
 
 
--- t4 = fromMolSeqs (seqdata figur)
--- t5 = snabbtest profileDistance profiles
+t4 = fromMolSeqs (seqdata figur)
+t5 = snabbtest profileDistance profiles
 -- t6 = distanceMatrix profiles

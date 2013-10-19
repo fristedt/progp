@@ -7,8 +7,8 @@ isVowel c = elem c "AEIOUYÅÄÖaeiouyåäö"
 rovarsprak :: String -> String
 rovarsprak [] = []
 rovarsprak (c:s)
-  | isVowel c = c : rovarsprak s
   | isConst c = c : 'o' : c : rovarsprak s
+  | otherwise = c : rovarsprak s
 
 svenska :: String -> String
 svenska [] = []
