@@ -1,10 +1,14 @@
 module MolSeq where
-data SeqType = DNA | Protein deriving (Eq, Enum, Show)
+import Evol
 data MolSeq = MolSeq {
-            name :: String
-            , mySequence :: String
-            , seqtype :: SeqType} 
+            name, sequence :: String
+            , seqType :: SeqType} 
             deriving (Show)
+
+instance Evol MolSeq where
+  distance s1 s2 = seqDistance s1 s2
+  name s         = seqName s
+  seqType s      = getType s
 
 string2seq :: String -> String -> MolSeq
 string2seq name sequence
@@ -18,16 +22,16 @@ isDNA (c:s)
   | otherwise     = False
 
 seqName :: MolSeq -> String
-seqName molseq = (name molseq)
+seqName molseq = (MolSeq.name molseq)
 
 seqSequence :: MolSeq -> String
-seqSequence molseq = (mySequence molseq)
+seqSequence molseq = (MolSeq.sequence molseq)
 
 seqLength :: MolSeq -> Int 
-seqLength molseq = length (mySequence molseq)
+seqLength molseq = length (MolSeq.sequence molseq)
 
-seqType :: MolSeq -> SeqType
-seqType molseq = (seqtype molseq)
+getType :: MolSeq -> SeqType
+getType molseq = (MolSeq.seqType molseq)
 
 seqDistance :: MolSeq -> MolSeq -> Float
 seqDistance (MolSeq _ seq1 seqType1) (MolSeq _ seq2 seqType2)

@@ -1,13 +1,19 @@
 module Profile where
 import MolSeq
 import Data.List
+import Evol
+
 data Profile = Profile {
                       name :: String
                     , len :: Int
                     , matrix :: [[(Char, Float)]]
-                    , seqtype :: SeqType
+                    , seqType :: SeqType
                        } deriving (Show)
 
+instance Evol Profile where
+  distance p1 p2 = profileDistance p1 p2
+  name p         = Profile.name p
+  seqType p      = Profile.seqType p
 nucleotides = "ACGT"
 aminoacids = sort "ARNDCEQGHILKMFPSTWYVX"
 
@@ -15,7 +21,7 @@ makeProfileMatrix :: [MolSeq] -> [[(Char, Int)]]
 makeProfileMatrix [] = error "Empty sequence list"
 makeProfileMatrix sl = res
   where 
-    t = seqType (head sl)
+    t = getType (head sl)
     n = length sl
     defaults = if (t == DNA) then
                  -- Create a list of tuples like [(A, 0), (C, 0), ..., (T, 0)]
@@ -39,7 +45,7 @@ fromMolSeqs :: [MolSeq] -> Profile
 fromMolSeqs [] = error "Empty sequence list"
 fromMolSeqs sl = res
   where
-    t = seqType (head sl)
+    t = MolSeq.seqType (head sl)
     n = length sl
     profileMatrix = makeProfileMatrix sl
     tmp1 = map (\x -> (map (\l -> ((fst l), divi (snd l) n)) x)) profileMatrix
@@ -53,7 +59,12 @@ divi x y = a / b
 
 -- Assumes equal length.
 profileDistance :: Profile -> Profile -> Float
-profileDistance p1 p2 = distance (matrix p1) (matrix p2)
+profileDistance p1 p2 = outer (matrix p1) (matrix p2)
 
-distance :: [[(Char, Float)]] -> [[(Char, Float)]] -> Float
-distance ((h1:t1):r1) ((h2:t2):r2) = (snd h1 - snd h2) + distance
+outer :: [[(Char, Float)]] -> [[(Char, Float)]] -> Float
+outer [] [] = 0
+outer (h1:t1) (h2:t2) = inner h1 h2 + outer t1 t2
+
+inner :: [(Char, Float)] -> [(Char, Float)] -> Float
+inner [] [] = 0
+inner (h1:t1) (h2:t2) = abs (snd h1 - snd h2) + inner t1 t2 

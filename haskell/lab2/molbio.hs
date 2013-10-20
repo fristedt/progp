@@ -1,7 +1,7 @@
 module Molbio where
 import MolSeq
 import Profile
---import Evol
+import Evol
 --import Neighbor
 
 -- The function seqdata converts the datasets in this file to MolSeq if
@@ -86,8 +86,8 @@ fam5 = [   ("5A1_Human","DQTFISIVDWARRCMVFKELEVADQMTLLQNCWSELLVFDHIYRQVQHLLVTGQE
    ("5B1_Fly","DHRLYKIVKWCKSLPLFKNISIDDQICLLINSWCELLLFSCCFRSIDTKMSQGRKITLTCIERMLNLTDRLRVDRYEYVAMKVIVLLQTELQEAVVRECEKAAYTLAHYPLEG")]
 
 
--- testdistance = distanceMatrix (seqdata fam2)
--- 
+testdistance = distanceMatrix (seqdata fam2)
+
 -- This function gives a lot of output...
 profiles = map fromMolSeqs 
                (map seqdata  [fam1, fam2, fam3, fam4, fam5])
@@ -95,4 +95,4 @@ profiles = map fromMolSeqs
 
 t4 = fromMolSeqs (seqdata figur)
 t5 = snabbtest profileDistance profiles
--- t6 = distanceMatrix profiles
+t6 = distanceMatrix profiles
