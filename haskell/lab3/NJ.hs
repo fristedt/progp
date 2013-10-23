@@ -15,7 +15,7 @@ tm2 = [("a", "a", 0), ("a", "b", 7), ("a", "c", 11), ("a", "d", 14),
 
 -- neighbour [String] -> [(String, String, Integer)] -> VADFANSOMHELST
 neighbour f1@(h:t) d1 
-  | length f1 > 3 = doStuff f1 d1
+  | length f1 > 3 = buildTree f1 d1 
   | otherwise     = error "DONE"
 
 -- Bilda hörnet u så att (a, u) samt (b, u), förutsatt att (a, b) 
@@ -27,21 +27,29 @@ neighbour f1@(h:t) d1
 -- Beräkna avstånd från alla gamla punkter skilda från a och b till 
 -- u och kasta in i distansmatris.
 -- Repeat til death.
-Upprepa till klart.
-doStuff f1 d1 = removeCorner f1 (minSelection f1)
+buildTree f1 d1 = buildEdge ((\(x, _, _) -> x) oldCorner) ((\(_, x, _) -> x) oldCorner) corner d1 (length f1)
   where 
-      minSelection :: [String] -> (String, String, Integer)
-      minSelection f1 = minDist d1 (corners d1) ("ASD", "asd", 0)
-        where
-          minDist :: [(String, String, Integer)] -> [(String, String)] -> (String, String, Integer) -> (String, String, Integer)
-          minDist _ [] c1 = c1
-          minDist d1 ((a, b):t) c1@(_, _, min)
-            | min <= dist2 = minDist d1 t c1 
-            | otherwise    = minDist d1 t c2 
-            where 
-              c2 = (a, b, dist2)
-              dist2 = selection d1 a b
+    minSelection :: [String] -> (String, String, Integer)
+    minSelection f1 = minDist d1 (corners d1) ("ASD", "asd", 0)
+    oldCorner = minSelection f1
+    corner = buildCorner (minSelection f1)
+     where
+       minDist :: [(String, String, Integer)] -> [(String, String)] -> (String, String, Integer) -> (String, String, Integer)
+       minDist _ [] c1 = c1
+       minDist d1 ((a, b):t) c1@(_, _, min)
+         | min <= dist2 = minDist d1 t c1 
+         | otherwise    = minDist d1 t c2 
+         where 
+           c2 = (a, b, dist2)
+           dist2 = selection d1 a b
 
+buildCorner :: (String, String, Integer) -> String
+buildCorner (a, b, _) = a ++ b
+
+buildEdge :: String -> String -> String -> [(String, String, Integer)] -> Integer -> [(String, String, Distance)]
+buildEdge a b u d1 r = (a, b, d)
+  where
+    d = 1/2*distance(a, b, d1) + 1/(2(r - 2))
 
 removeCorner :: [String] -> (String, String, Integer) -> [String]
 removeCorner [] _ = []
@@ -63,6 +71,7 @@ selection matrix x y = ((toInteger (length uniqueMatrix)) - 2) * (distance x y m
 unique :: [(String, String, Integer)] -> [String]
 unique list = nub (map (\(x, _, _) -> x) list)
 
+-- Returns the distance between corner a and corner b in matrix d1.
 distance :: String -> String -> [(String, String, Integer)] -> Integer
 distance from to [] = 0
 distance from to ((a, b, d):t)
