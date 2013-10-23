@@ -78,10 +78,10 @@ minSelection :: [(String, String)] -> [String] -> Map.Map (String, String) Integ
 minSelection em fm dm = go Nothing em dm
   where 
     go :: Maybe (String, String) -> [(String, String)] -> Map.Map (String, String) Integer -> (String, String)
-    go (Just minSel) [] _ = minSel
-    go Nothing (h:t) dm = go (Just h) t dm
-    go (Just minSel) em@(h:t) dm  = go (Just sel) t dm
+    go (Just minSel) [] _      = minSel             -- Last iteration, return the minimum selection.
+    go Nothing (h:t) dm        = go (Just h) t dm   -- First iteration, set the first tuple as the minimum one.
+    go (Just minSel) (h:t) dm  = go (Just sel) t dm -- Compare the current minimum selection with the new one.
       where
-        d1 = selection minSel fm dm
-        d2 = selection h fm dm
+        d1  = selection minSel fm dm
+        d2  = selection h fm dm
         sel = d1 <= d2 ? minSel :? h
