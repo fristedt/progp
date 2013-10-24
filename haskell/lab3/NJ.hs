@@ -75,12 +75,13 @@ selection (a, b) fm dm = (toInteger ((length fm) - 2)) * (distance (a, b) dm) - 
 
 -- Returns the tuple (a, b) that minimizes S(a, b).
 minSelection :: [(String, String)] -> [String] -> Map.Map (String, String) Integer -> (String, String)
-minSelection em fm dm = go ("asd", "asd") em dm
+minSelection em fm dm = go Nothing em dm
   where 
-    go :: (String, String) -> [(String, String)] -> Map.Map (String, String) Integer -> (String, String)
-    go minSel [] _ = minSel
-    go minSel em@(h:t) dm  = go sel t dm 
-        where
-          d1 = selection minSel fm dm 
-          d2 = selection h fm dm
-          sel = d1 <= d2 ? minSel :? h
+    go :: Maybe (String, String) -> [(String, String)] -> Map.Map (String, String) Integer -> (String, String)
+    go (Just minSel) [] _      = minSel             -- Last iteration, return the minimum selection.
+    go Nothing (h:t) dm        = go (Just h) t dm   -- First iteration, set the first tuple as the minimum one.
+    go (Just minSel) (h:t) dm  = go (Just sel) t dm -- Compare the current minimum selection with the new one.
+      where
+        d1  = selection minSel fm dm
+        d2  = selection h fm dm
+        sel = d1 <= d2 ? minSel :? h
