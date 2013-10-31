@@ -33,24 +33,28 @@ fm1 = unique em1
 fm2 = unique em2
 
 -- Set of all edges.
-em1 = map (\(a, b, _) -> (a, b)) tm1
-em2 = map (\(a, b, _) -> (a, b)) tm2
+em1 = edges tm1
+em2 = edges tm2
+
+-- Removes the distance from a distance matrix.
+edges :: [(String, String, Float)] -> [(String, String)]
+edges tm = map (\(a, b, _) -> (a, b)) tm
 
 -- Build a map of key -> value pairs where key is a tuple (a, b) and value is the distance.
-buildDistanceMap :: [(String, String, Integer)] -> Map.Map (String, String) Integer
+buildDistanceMap :: [(String, String, Float)] -> Map.Map (String, String) Float
 buildDistanceMap tm = Map.fromList m 
   where
     m = map (\(a, b, d) -> ((a, b), d)) tm  
 
 -- Makes paths bidirectional. 
-mirror :: [(String, String, Integer)] -> [(String, String, Integer)]
+mirror :: [(String, String, Float)] -> [(String, String, Float)]
 mirror [] =  []
 mirror (head@(a, b, d):t) 
   | a == b    = head:mirror t
   | otherwise = head:(b, a, d):mirror t
 
 -- Returns distance between a and b in key@(a, b) using lookup in map.
-distance :: (String, String) -> Map.Map (String, String) Integer -> Integer
+distance :: (String, String) -> Map.Map (String, String) Float -> Float
 distance key map = case Map.lookup key map of 
   Nothing -> 0 
   Just x -> x
@@ -60,10 +64,10 @@ unique :: [(String, String)] -> [String]
 unique list = nub (map (\(x, _) -> x) list)
 
 -- Returns a crazy integer that we need for determining stuff.
-selection :: (String, String) -> [String] -> Map.Map (String, String) Integer -> Integer
-selection (a, b) fm dm = (toInteger ((length fm) - 2)) * (distance (a, b) dm) - cornerSum a b fm dm
+selection :: (String, String) -> [String] -> Map.Map (String, String) Float -> Float
+selection (a, b) fm dm = (fromIntegral (length fm) - 2.0) * (distance (a, b) dm) - cornerSum a b fm dm
   where
-    cornerSum :: String -> String -> [String] -> Map.Map (String, String) Integer -> Integer
+    cornerSum :: String -> String -> [String] -> Map.Map (String, String) Float -> Float
     cornerSum _ _ [] _ = 0
     cornerSum a b (h:t) dm
       | a == b = 0
@@ -74,14 +78,63 @@ selection (a, b) fm dm = (toInteger ((length fm) - 2)) * (distance (a, b) dm) - 
         d2 = distance (b, h) dm
 
 -- Returns the tuple (a, b) that minimizes S(a, b).
-minSelection :: [(String, String)] -> [String] -> Map.Map (String, String) Integer -> (String, String)
+minSelection :: [(String, String)] -> [String] -> Map.Map (String, String) Float -> (String, String)
 minSelection em fm dm = go Nothing em dm
   where 
-    go :: Maybe (String, String) -> [(String, String)] -> Map.Map (String, String) Integer -> (String, String)
+    go :: Maybe (String, String) -> [(String, String)] -> Map.Map (String, String) Float -> (String, String)
     go (Just minSel) [] _      = minSel             -- Last iteration, return the minimum selection.
-    go Nothing (h:t) dm        = go (Just h) t dm   -- First iteration, set the first tuple as the minimum one.
-    go (Just minSel) (h:t) dm  = go (Just sel) t dm -- Compare the current minimum selection with the new one.
+    go Nothing (h@(a, b):t) dm = go (Just h) t dm
+    go (Just minSel) (h@(a, b):t) dm 
+      | d1 <= d2  = go (Just minSel) t dm -- Compare the current minimum selection with the new one.
+      | otherwise = go (Just h) t dm
       where
         d1  = selection minSel fm dm
         d2  = selection h fm dm
-        sel = d1 <= d2 ? minSel :? h
+
+-- neighbor :: [(String, String, Float)] -> [(String, String)]
+neighbor tm = go (buildDistanceMap (mirror tm)) (unique (edges tm)) (edges tm) 1
+  where
+    -- go :: Map.Map (String, String) Float -> [String] -> [(String, String)] -> Integer -> [(String, String)]
+    go dm fm em i 
+      -- | length fm <= 3 = fm
+      -- | i == 3         = selection ("d", "v2") fm dm
+      | i == 3         = selection ("e", "f") fm dm
+      -- | i == 3         = [(a, b) | a <- fm, b <- fm]
+      -- | i == 3         = minSel
+      | otherwise      = go newDm newFm newEm (i + 1) 
+      where 
+        minSel = minSelection [(a, b) | a <- fm, b <- fm] fm dm
+        newCorner = makeCorner i 
+        newFm = subCorner fm minSel newCorner
+        newDm = recalcDistances newFm minSel newCorner dm
+        newEm = removeEdges (addEdges em newCorner minSel) minSel
+
+-- Make a corner v(i).
+makeCorner :: Integer -> String
+makeCorner i = 'v' : (show i)
+
+-- Removes all occurrences of a and b in (a, b) from the list of strings and add v(i).
+subCorner :: [String] -> (String, String) -> String -> [String]
+subCorner corners edge corner = (filter (\x -> (x /= fst edge) && (x /= snd edge)) corners) ++ [corner]
+
+-- Add edges.
+addEdges :: [(String, String)] -> String -> (String, String) -> [(String, String)]
+addEdges edges corner edge = edges ++ (((fst edge), corner) : [((snd edge), corner)])
+
+removeEdges :: [(String, String)] -> (String, String) -> [(String, String)]
+removeEdges edges edge = filter (\x -> x /= edge) edges
+
+-- -- recalcDistances :: Edges -> NewCorner -> MinSel -> Distances -> NewDistances
+-- recalcDistances :: [(String, String)] -> String -> (String, String) -> Map.Map (String, String) Float -> Map.Map (String, String) Float
+recalcDistances :: [String] -> (String, String) -> String -> Map.Map (String, String) Float -> Map.Map (String, String) Float
+recalcDistances corners minSel corner dm = go corners minSel corner dm []
+  where
+    go :: [String] -> (String, String) -> String -> Map.Map (String, String) Float -> [(String, String, Float)]-> Map.Map (String, String) Float
+    go [] _ _ dm list = Map.union dm (buildDistanceMap (mirror list))
+    go (h:t) minSel@(a, b) corner dm list 
+      | h /= a && h /= b = go t minSel corner dm (tup : list)
+      | otherwise = go t minSel corner dm list
+      where
+        d1  = distance (h, a) dm 
+        d2  = distance (h, b) dm 
+        tup = (h, corner, (d1 + d2) / 2)
