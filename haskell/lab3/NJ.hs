@@ -56,32 +56,20 @@ selection (a, b) fm dm = (fromIntegral (length fm) - 2.0) * (distance (a, b) dm)
         d2 = distance (b, h) dm
 
 -- Returns the tuple (a, b) that minimizes S(a, b).
--- minSelection :: [Edge] -> NodeSet -> DistanceMap -> Edge
--- minSelection em fm dm = go Nothing em (Set.toList fm) dm
---   where 
---     go :: Maybe Edge -> [Edge] -> [String] -> DistanceMap -> Edge
---     go (Just minSel) [] _ _      = minSel             -- Last iteration, return the minimum selection.
---     go Nothing (h@(a, b):t) fml dm = go (Just h) t fml dm
---     go (Just minSel) (h@(a, b):t) fml dm 
---       | d1 <= d2  = go (Just minSel) t fml dm -- Compare the current minimum selection with the new one.
---       | otherwise = go (Just h) t fml dm
---       where
---         d1  = selection minSel fml dm
---         d2  = selection h fml dm
-
-minSelection :: [String] -> DistanceMap -> Edge
-minSelection f dm = go Nothing [(a, b) | a <- f, b <- f] dm
-  where
-    go :: (Maybe Edge) -> [Edge] -> DistanceMap -> Edge
-    go Nothing (h:t) dm = go (Just h) t dm
-    go (Just minEdge) [] _ = minEdge
-    go (Just minEdge) (h:t) dm 
-      | s h < s minEdge = go (Just h) t dm
-      | otherwise       = go (Just minEdge) t dm 
+minSelection :: [Edge] -> NodeSet -> DistanceMap -> Edge
+minSelection em fm dm = go Nothing em (Set.toList fm) dm
+  where 
+    go :: Maybe Edge -> [Edge] -> [String] -> DistanceMap -> Edge
+    go (Just minSel) []_ _      = minSel             -- Last iteration, return the minimum selection.
+    go Nothing (h@(a, b):t) fml dm = go (Just h) t fml dm
+    go (Just minSel) (h@(a, b):t) fml dm 
+      | d1 <= d2  = go (Just minSel) t fml dm -- Compare the current minimum selection with the new one.
+      | otherwise = go (Just h) t fml dm
       where
-        s x = selection x f dm
+        d1  = selection minSel fml dm
+        d2  = selection h fml dm
 
--- Build a node set. 
+-- Build a node set. #unnecessaryComments
 buildNodeSet :: [DistanceTriplet] -> NodeSet
 buildNodeSet dt = Set.fromList (nub (map (\(a, _, _) -> a) dt))
 
@@ -91,25 +79,24 @@ edges tm = map (\(a, b, _) -> (a, b)) tm
 
 -- neighbor :: [DistanceTriplet] -> [Edge]
 -- neighbor tm = go (buildDistanceMap (mirror tm)) (unique (edges tm)) (edges tm) 1
--- neighbor tm = go (buildDistanceMap (mirror tm)) (buildNodeSet tm) (edges tm) 1
-neighbor tm = go (buildDistanceMap (mirror tm)) (buildNodeSet tm) [] 1
+neighbor tm = go (buildDistanceMap (mirror tm)) (buildNodeSet tm) (edges tm) 1
   where
     -- go :: Map.Map Edge Float -> [String] -> [Edge] -> Integer -> [Edge]
     go dm fm em i 
-      -- | Set.size fm <= 3 = fm
+      -- | length fm <= 3 = fm
       -- | i == 3         = selection ("d", "v2") fm dm
       -- | i == 3         = selection ("e", "f") fm dm
       -- | i == 3         = [(a, b) | a <- fm, b <- fm]
-      | i == 1         = minSel
+      | i == 3         = minSel
       | otherwise      = go newDm newFm newEm (i + 1) 
       where 
         fml = Set.toList fm
-        minSel = minSelection fml dm
+        minSel = minSelection [(a, b) | a <- fml, b <- fml] fm dm
         newNode = makeNode i 
         newFm = subNode fm minSel newNode
         newDm = recalcDistances newFm minSel newNode dm
         newEm = removeEdges (addEdges em newNode minSel) minSel
--- 
+
 -- Make a node v(i).
 makeNode :: Integer -> String
 makeNode i = 'v' : (show i)
