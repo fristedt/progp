@@ -6,4 +6,3 @@ class Evol a where
   seqType :: a -> SeqType
   distanceMatrix :: [a] -> [(String, String, Float)]
   distanceMatrix a = [(name a1, name a2, distance a1 a2) | a1 <- a, a2 <- a]
-  

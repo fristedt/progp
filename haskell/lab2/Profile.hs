@@ -57,7 +57,6 @@ divi x y = a / b
   where a = fromIntegral x :: Float
         b = fromIntegral y :: Float
 
--- Assumes equal length.
 profileDistance :: Profile -> Profile -> Float
 profileDistance p1 p2 = outer (matrix p1) (matrix p2)
 
