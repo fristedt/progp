@@ -1,0 +1,13 @@
+steve@apple.com
+STEVE@microsoft.com
+larry@oracle.com
+arve+web@csc.kth.se
+gudrun@min.privata.mejl.server.nu
+a@hemlig.se
+com@com.com
+com-org@net.nu.se
+abc!#$@just.nu
+123*%/@ink.org
+ada?|^@en.com
+zzz{}`@x.y.z.net
+www~&+-=_@net.net
