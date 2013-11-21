@@ -2,6 +2,7 @@ module NJ where
 import Data.List 
 import qualified Data.Map as Map
 import qualified Data.Set as Set
+import qualified Debug.Trace as Trace
 
 type EdgeSet = Set.Set (String, String)
 
@@ -92,10 +93,6 @@ neighbor tm = buildTree nodes res
     go :: Map.Map (String, String) Float -> [String] -> [(String, String)] -> EdgeSet -> Integer -> EdgeSet
     go dm fm em es i 
       | length fm <= 3 = es 
-      -- | i == 3         = selection ("e", "f") fm dm
-      -- | i == 3         = selection ("c", "v1") fm dm
-      -- | i == 3         = [(a, b) | a <- fm, b <- fm]
-      -- | i == 3         = minSel
       | otherwise      = go newDm newFm newEm newEs (i + 1) 
       where 
         minSel = minSelection [(a, b) | a <- fm, b <- fm] fm dm
@@ -103,7 +100,24 @@ neighbor tm = buildTree nodes res
         newFm = subCorner fm minSel newCorner
         newDm = recalcDistances newFm minSel newCorner dm
         newEm = removeEdges (addEdges em newCorner minSel) minSel
-        newEs = Set.insert minSel es
+        -- TODO: turn this in to a nice func.
+        newEs = Set.insert ((newCorner, (snd minSel))) (Set.insert ((newCorner, (fst minSel))) es)
+
+data Tree = Branch String [Tree] | Leaf String deriving Show
+
+-- buildTree :: [String] -> EdgeSet -> Tree
+buildTree nodes edges = buildRoot (Set.toList edges) []
+  where
+    buildRoot [] root = root
+    buildRoot (edge@(a, b):edges) root
+      | null root = buildRoot edges (branch:root)
+      | otherwise = buildRoot edges (addLeaf edge root)
+      where
+        branch = Branch a [Leaf b]
+        addLeaf _ [] = [branch]
+        addLeaf edge@(c, d) (e@(Branch f g):ts)
+          | c == f = (Branch c ((Leaf d):g)):ts
+          | otherwise = e:(addLeaf edge ts)
 
 -- Make a corner v(i).
 makeCorner :: Integer -> String
