@@ -2,7 +2,8 @@
 #[A-Za-z0-9\!\#\$\%\*\/\?\|\^\{\}\`\~\&\'\+\-\=\_]+@[a-z0-9]+\.com\|org\|net\|nu\|se]] ]]
 
 # lokal=
-regex="^([A-Za-z0-9!#$%*/?|^{}\`~\&\'+\-=_]+)@([a-z0-9\.]+)\.(com|org|net|nu|se)$"
+regex="^([A-Za-z0-9!#$%*\/?|^{}\`~&'+=_\-]+)@([a-z0-9]+\.)+(com|org|net|nu|se)$"
+# regex="[a-z\-]+@([a-z0-9]+\.)+(com|org|net|nu|se)$"
 
 echo "BRA"
 exec 3<bra.txt
