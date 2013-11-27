@@ -10,3 +10,9 @@ a @ hemlig.se
 nix.@pix.se
 nix@.pix.se
 gudrun@_.#.!.se
+namn@plats@planet.com
+progp\13@csc.kth.se
+progp"13@csc.kth.se
+test@hej..com
+test@hej.+.com
+test@HEJ.com
