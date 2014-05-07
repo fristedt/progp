@@ -86,7 +86,7 @@ minSelection em fm dm = go Nothing em dm
         d2  = selection h fm dm
 
 -- neighbor :: [(String, String, Float)] -> [(String, String)]
-neighbor tm = buildTree nodes res 
+neighbor tm = tmp (buildTree nodes res)
   where
     nodes = (unique (edges tm)) 
     res = go (buildDistanceMap (mirror tm)) nodes (edges tm) Set.empty 1

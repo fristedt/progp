@@ -1,11 +1,8 @@
--- translate :: String -> Int
--- translate s = perWord (words s)
---   where 
---     perWord :: [String] -> Int
---     perWord [] = 0
---     perWord (h:s) = dansk h + perWord s
 import System.IO
 import Control.Monad
+
+errormessage :: String
+errormessage = "NaN!"
 
 dansk :: String -> Int
 dansk word = en2ni (words word)
@@ -41,7 +38,7 @@ mer :: [String] -> Int
 mer []          = 0
 mer ("":tail)   = 0 
 mer ("og":tail) = tyve2halvfems tail
-mer asdf        = error "CUT IT THE FUCK AUS!"
+mer asdf        = error errormessage
 
 tyve2halvfems :: [String] -> Int
 tyve2halvfems ("tyve":tail)      = 20
@@ -58,7 +55,7 @@ mult :: [String] -> Int
 mult ("tres":tail) = 3 + (emfas tail)
 mult ("firs":tail) = 4 + (emfas tail)
 mult ("fjerds":tail) = 4 + (emfas tail)
-mult fuckerdoodle = error "NaN, bitch!"
+mult fuckerdoodle = error errormessage
 
 halvmult :: [String] -> Int
 halvmult ("fems":tail) = 5 + (emfas tail)
@@ -68,7 +65,7 @@ emfas :: [String] -> Int
 emfas word
   | word == ["sindstyve"] = 0
   | word == []            = 0
-  | otherwise           = error "Inte okej!"
+  | otherwise           = error errormessage
 
 test = do
   good <- readFile "dr.txt"
