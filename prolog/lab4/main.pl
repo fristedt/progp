@@ -8,8 +8,10 @@ gen_var(N, [X|Xs]) :-
   gen_var(M, Xs), 
   X in 0..1. % The domain of X is constrained to 0/1
 
+% Generate NumberOfPrimers many indicator variables. 
 % We get the sum of our indicator variables and tell Prolog to give us the
 % solution with the smallest sum first.
+% An additional constraint is set for each gene, see iterate_genes for details.
 choose_primers(NumberOfPrimers, Genes, RecommendedPrimersByPrologCLPFD) :- 
   gen_var(NumberOfPrimers, I),
   iterate_genes(Genes, I),
@@ -40,5 +42,3 @@ get_indices_of_ones(N, [0|Tail], List) :-
 get_indices_of_ones(N, [1|Tail], [N|List]) :-
   M is N + 1,
   get_indices_of_ones(M, Tail, List).
-
-
