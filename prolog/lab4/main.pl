@@ -21,8 +21,8 @@ iterate_genes([pri(_, Primers)|Tail], I) :-
   iterate_genes(Tail).
 
 primer_indicators([], _, _).
-primer_indicators([Primer|Tail], I, Indicators) :-
-  nth1(Primer, I, Indicator),
-  primer_indicators(Tail, I, [Indicator|Indicators]).
+primer_indicators([Primer|Tail], I, [Indicator|Indicators]) :-
+  element(Primer, I, Indicator),
+  primer_indicators(Tail, I, Indicators).
 
 
