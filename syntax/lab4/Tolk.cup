@@ -1,0 +1,86 @@
+//
+// CUP-grammar for a command parser
+//
+import java.util.List;
+import java_cup.runtime.*;
+
+/***  Terminaler    ******************************************************
+
+  These are the symbols that the lexer provides. These end up in a
+  file called sym.java.
+
+  For some terminals, there is a class name listed, defining what kind
+  of semantic value a terminal is associated with. 
+
+*/
+terminal	GO, TAKE, DROP, SAY; /* Verb */
+terminal        BOOK, LABNOTES, HASKELL, PROLOG, PROGP, NUMME; /* Things */
+terminal        ASSISTANT, LECTURER; /* Persons */
+terminal	TILL, PERIOD;
+terminal Direction DIRECTION; /* Where to go: north, etc */
+terminal	BYEBYE;
+terminal String	SOME_STRING;
+
+
+/***  Icke-terminaler    ******************************************************
+   
+  First a class name to define the type of the 
+  "semantic result" of a production rule, then 
+  a list of variables in the grammar.
+
+*/
+non terminal  List      instruction;
+non terminal  Command   one_instruction;
+non terminal  Command	take_instr, drop_instr, go_instr, talk_instr;
+non terminal  Things    book, labnotes, thing;
+non terminal  People    person;
+
+start with instruction; /* Explicitly tell CUP what the top-level production is */
+
+
+/***   Grammar   ******************************************************/
+
+instruction	::= one_instruction:i PERIOD
+			{: RESULT=new java.util.ArrayList(); RESULT.add(0,i); :}
+		  ;
+
+one_instruction ::= take_instr:i  {: RESULT = i; :}
+		  | drop_instr:i  {: RESULT = i; :}
+		  | go_instr:i    {: RESULT = i; :}
+		  | talk_instr:i  {: RESULT = i; :}
+		  | BYEBYE        {: RESULT = new QuitCommand(); :} 
+		  ;
+
+take_instr ::= TAKE thing:t
+		{: RESULT = new TakeCommand(t); :} 
+	     ;
+
+drop_instr ::= DROP thing:t
+		{: RESULT = new DropCommand(t); :}
+	     ;
+
+go_instr ::= GO DIRECTION:d
+		{: RESULT = new GoCommand(d); :}
+	   ;
+
+talk_instr ::= SAY SOME_STRING:s TILL person:p
+		{: RESULT = new SayCommand(s, p); :}
+	     ;
+
+thing ::= book:b 	{: RESULT = b; :}
+	| labnotes:n 	{: RESULT = n; :}
+	;
+
+book  ::= HASKELL BOOK {: RESULT = Things.HASKELLBOOK; :}
+	| PROLOG  BOOK {: RESULT = Things.PROLOGBOOK;  :}
+	| BOOK         {: RESULT = Things.UNKNOWNBOOK; :}
+	;	
+
+labnotes ::= PROGP LABNOTES {: RESULT = Things.PROGPLABNOTES; :}
+	| NUMME LABNOTES    {: RESULT = Things.NUMMELABNOTES; :}
+	| LABNOTES {: RESULT = Things.UNKNOWNLABNOTES; :}
+	;
+
+person ::= LECTURER {: RESULT = People.LECTURER; :}
+	| ASSISTANT {: RESULT = People.ASSISTANT; :}
+	;
