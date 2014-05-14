@@ -13,10 +13,10 @@ import java_cup.runtime.*;
   of semantic value a terminal is associated with. 
 
 */
-terminal	GO, TAKE, DROP, SAY; /* Verb */
-terminal        BOOK, LABNOTES, HASKELL, PROLOG, PROGP, NUMME; /* Things */
+terminal	GO, TAKE, DROP, SAY, GREET; /* Verb */
+terminal        BOOK, LABNOTES, HASKELL, PROLOG, PROGP, NUMME, PEN; /* Things */
 terminal        ASSISTANT, LECTURER; /* Persons */
-terminal	TILL, PERIOD;
+terminal	AND, COMMA, TILL, PERIOD;
 terminal Direction DIRECTION; /* Where to go: north, etc */
 terminal	BYEBYE;
 terminal String	SOME_STRING;
@@ -31,8 +31,9 @@ terminal String	SOME_STRING;
 */
 non terminal  List      instruction;
 non terminal  Command   one_instruction;
-non terminal  Command	take_instr, drop_instr, go_instr, talk_instr;
-non terminal  Things    book, labnotes, thing;
+non terminal  List      comma_sequence;
+non terminal  Command	take_instr, drop_instr, go_instr, talk_instr, greet_instr;
+non terminal  Things    book, labnotes, thing, pen;
 non terminal  People    person;
 
 start with instruction; /* Explicitly tell CUP what the top-level production is */
@@ -42,12 +43,23 @@ start with instruction; /* Explicitly tell CUP what the top-level production is 
 
 instruction	::= one_instruction:i PERIOD
 			{: RESULT=new java.util.ArrayList(); RESULT.add(0,i); :}
+            | comma_sequence:i1 AND one_instruction:i2 PERIOD
+			{: RESULT=new java.util.ArrayList(); RESULT.addAll(i1); RESULT.add(i2); :}
 		  ;
+
+comma_sequence ::= one_instruction:i
+                {: RESULT=new java.util.ArrayList(); RESULT.add(0,i); :}
+                | one_instruction:i COMMA /* Oxford comma! */
+                {: RESULT=new java.util.ArrayList(); RESULT.add(0,i); :}
+                | one_instruction:i1 COMMA comma_sequence:i2 
+                {: RESULT=new java.util.ArrayList(); RESULT.add(0,i1); RESULT.addAll(i2); :}
+                ;
 
 one_instruction ::= take_instr:i  {: RESULT = i; :}
 		  | drop_instr:i  {: RESULT = i; :}
 		  | go_instr:i    {: RESULT = i; :}
 		  | talk_instr:i  {: RESULT = i; :}
+      | greet_instr:i {: RESULT = i; :}
 		  | BYEBYE        {: RESULT = new QuitCommand(); :} 
 		  ;
 
@@ -67,8 +79,11 @@ talk_instr ::= SAY SOME_STRING:s TILL person:p
 		{: RESULT = new SayCommand(s, p); :}
 	     ;
 
+greet_instr ::= GREET person:p {: RESULT = new GreetCommand(p); :};
+
 thing ::= book:b 	{: RESULT = b; :}
 	| labnotes:n 	{: RESULT = n; :}
+  | pen:p {: RESULT = p; :}
 	;
 
 book  ::= HASKELL BOOK {: RESULT = Things.HASKELLBOOK; :}
@@ -80,6 +95,8 @@ labnotes ::= PROGP LABNOTES {: RESULT = Things.PROGPLABNOTES; :}
 	| NUMME LABNOTES    {: RESULT = Things.NUMMELABNOTES; :}
 	| LABNOTES {: RESULT = Things.UNKNOWNLABNOTES; :}
 	;
+
+pen ::= PEN {: RESULT = Things.PEN; :};
 
 person ::= LECTURER {: RESULT = People.LECTURER; :}
 	| ASSISTANT {: RESULT = People.ASSISTANT; :}

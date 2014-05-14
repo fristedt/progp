@@ -34,11 +34,12 @@ class TolkLexer implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\12\0\1\31\1\31\1\31\1\31\24\0\1\30\13\0\1\22\23\0"+
-    "\1\24\4\0\1\23\31\0\1\2\1\13\1\26\1\20\1\5\1\0"+
-    "\1\12\1\1\1\27\1\0\1\4\1\6\1\17\1\14\1\11\1\7"+
-    "\1\0\1\10\1\3\1\15\1\16\1\0\1\25\1\0\1\21\13\0"+
-    "\1\31\u1fa2\0\1\31\1\31\udfd6\0";
+    "\12\0\1\41\1\41\1\41\1\41\24\0\1\40\11\0\1\26\1\0"+
+    "\1\25\22\0\1\27\1\31\1\0\1\22\1\34\1\0\1\20\11\0"+
+    "\1\32\1\0\1\23\1\21\14\0\1\2\1\13\1\37\1\30\1\5"+
+    "\1\0\1\12\1\1\1\33\1\0\1\4\1\6\1\17\1\14\1\11"+
+    "\1\7\1\32\1\10\1\3\1\15\1\16\1\0\1\36\1\35\1\24"+
+    "\13\0\1\41\u1fa2\0\1\41\1\41\udfd6\0";
 
   /** 
    * Translates characters to character classes
@@ -51,14 +52,15 @@ class TolkLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\14\1\1\2\4\1\10\0\1\3\4\0\1\4"+
-    "\1\5\6\0\1\6\7\0\1\7\6\0\1\10\3\0"+
-    "\1\11\5\0\1\12\3\0\1\13\1\14\1\15\2\0"+
-    "\1\16\3\0\1\17\1\0\1\20\1\21\1\22\3\0"+
-    "\1\23\1\24\3\0\1\25\1\4";
+    "\1\0\16\1\1\2\1\3\6\1\14\0\1\4\4\0"+
+    "\1\5\1\6\6\0\1\7\1\10\5\0\1\11\5\0"+
+    "\1\12\6\0\1\13\3\0\1\14\4\0\1\15\2\0"+
+    "\1\16\3\0\1\17\1\20\2\0\1\21\3\0\1\22"+
+    "\1\23\1\0\1\24\1\25\1\26\3\0\1\27\1\30"+
+    "\3\0\1\31\1\5";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[92];
+    int [] result = new int[108];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -83,21 +85,23 @@ class TolkLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\32\0\64\0\116\0\150\0\202\0\234\0\266"+
-    "\0\320\0\352\0\u0104\0\u011e\0\u0138\0\32\0\u0152\0\u016c"+
-    "\0\u0186\0\u01a0\0\u01ba\0\u01d4\0\u01ee\0\u0208\0\u0222\0\u023c"+
-    "\0\u0256\0\u0270\0\u028a\0\u02a4\0\u02be\0\u02d8\0\u02f2\0\u030c"+
-    "\0\32\0\u0326\0\u028a\0\u0340\0\u035a\0\u0374\0\u038e\0\32"+
-    "\0\u03a8\0\u03c2\0\u03dc\0\u03f6\0\u0410\0\u042a\0\u0444\0\32"+
-    "\0\u045e\0\u0478\0\u0492\0\u04ac\0\u04c6\0\u04e0\0\u035a\0\u04fa"+
-    "\0\u0514\0\u052e\0\32\0\u0548\0\u0562\0\u057c\0\u0596\0\u05b0"+
-    "\0\32\0\u05ca\0\u05e4\0\u05fe\0\32\0\32\0\32\0\u0618"+
-    "\0\u0632\0\32\0\u064c\0\u0666\0\u0680\0\32\0\u016c\0\32"+
-    "\0\32\0\32\0\u069a\0\u06b4\0\u06ce\0\32\0\32\0\u06e8"+
-    "\0\u0702\0\u071c\0\32\0\32";
+    "\0\0\0\42\0\104\0\146\0\210\0\252\0\314\0\356"+
+    "\0\u0110\0\u0132\0\u0154\0\u0176\0\u0198\0\u01ba\0\u01dc\0\42"+
+    "\0\42\0\u01fe\0\u0220\0\u0242\0\u0264\0\u0286\0\u02a8\0\u02ca"+
+    "\0\u02ec\0\u030e\0\u0330\0\u0352\0\u0374\0\u0396\0\u03b8\0\u03da"+
+    "\0\u03fc\0\u041e\0\u0440\0\u0462\0\u0484\0\u04a6\0\u04c8\0\u04ea"+
+    "\0\u050c\0\42\0\u050c\0\u052e\0\u0550\0\u0572\0\u0594\0\u05b6"+
+    "\0\42\0\42\0\u05d8\0\u05fa\0\u061c\0\u063e\0\u0660\0\42"+
+    "\0\u0682\0\u06a4\0\u06c6\0\u06e8\0\u070a\0\42\0\u072c\0\u074e"+
+    "\0\u0770\0\u0792\0\u07b4\0\u07d6\0\u0572\0\u07f8\0\u081a\0\u083c"+
+    "\0\42\0\u085e\0\u0880\0\u08a2\0\u08c4\0\42\0\u08e6\0\u0908"+
+    "\0\42\0\u092a\0\u094c\0\u096e\0\42\0\42\0\u0990\0\u09b2"+
+    "\0\42\0\u09d4\0\u09f6\0\u0a18\0\42\0\42\0\u0220\0\42"+
+    "\0\42\0\42\0\u0a3a\0\u0a5c\0\u0a7e\0\42\0\42\0\u0aa0"+
+    "\0\u0ac2\0\u0ae4\0\42\0\42";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[92];
+    int [] result = new int[108];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -121,31 +125,36 @@ class TolkLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\5\1\2\1\6\1\7\1\10"+
-    "\2\2\1\11\1\12\1\13\1\14\2\2\1\15\1\2"+
-    "\1\16\1\17\1\20\1\21\2\2\1\22\35\0\1\23"+
-    "\32\0\1\24\30\0\1\25\6\0\1\26\22\0\1\27"+
-    "\31\0\1\30\2\0\1\31\34\0\1\32\32\0\1\33"+
-    "\31\0\1\34\7\0\1\35\21\0\1\36\4\0\1\37"+
-    "\15\0\1\40\6\0\1\41\30\0\1\42\32\0\1\43"+
-    "\41\0\1\35\15\0\1\44\24\0\31\45\4\0\1\46"+
-    "\31\0\1\47\47\0\1\50\26\0\1\51\16\0\1\52"+
-    "\41\0\1\53\44\0\1\54\14\0\1\55\31\0\1\56"+
-    "\31\0\1\57\25\0\1\60\34\0\1\61\4\0\1\62"+
-    "\33\0\1\63\16\0\1\64\36\0\1\65\23\0\1\66"+
-    "\26\0\30\45\1\67\5\0\1\70\54\0\1\71\17\0"+
-    "\1\72\31\0\1\73\30\0\1\74\32\0\1\75\22\0"+
-    "\1\76\3\0\1\77\37\0\1\100\15\0\1\101\42\0"+
-    "\1\102\21\0\1\103\43\0\1\104\17\0\1\105\33\0"+
-    "\1\106\37\0\1\107\21\0\1\110\27\0\1\111\27\0"+
-    "\1\112\41\0\1\113\36\0\1\114\24\0\1\115\27\0"+
-    "\1\116\35\0\1\117\10\0\1\117\6\0\1\120\33\0"+
-    "\1\121\33\0\1\122\32\0\1\123\40\0\1\124\31\0"+
-    "\1\62\24\0\1\125\33\0\1\126\25\0\1\127\25\0"+
-    "\1\130\34\0\1\131\40\0\1\132\25\0\1\133\36\0"+
-    "\1\134\14\0";
+    "\2\2\1\11\1\12\1\13\1\14\2\2\1\11\1\15"+
+    "\1\16\1\17\1\2\1\20\1\21\1\22\1\16\1\23"+
+    "\1\24\1\2\1\25\1\2\1\26\1\2\1\27\45\0"+
+    "\1\30\42\0\1\31\10\0\1\32\27\0\1\33\6\0"+
+    "\1\34\32\0\1\35\32\0\1\36\6\0\1\37\2\0"+
+    "\1\40\41\0\1\41\2\0\1\42\41\0\1\43\1\44"+
+    "\41\0\1\45\12\0\1\46\26\0\1\47\4\0\1\50"+
+    "\25\0\1\51\6\0\1\52\32\0\1\53\6\0\1\52"+
+    "\40\0\1\54\33\0\1\33\53\0\1\32\51\0\1\46"+
+    "\33\0\1\36\60\0\1\36\11\0\1\55\34\0\41\56"+
+    "\4\0\1\57\41\0\1\60\66\0\1\61\35\0\1\62"+
+    "\33\0\1\63\26\0\1\64\71\0\1\65\21\0\1\66"+
+    "\65\0\1\67\16\0\1\70\36\0\1\71\32\0\1\72"+
+    "\2\0\1\73\45\0\1\74\41\0\1\75\35\0\1\76"+
+    "\44\0\1\77\4\0\1\100\43\0\1\101\26\0\1\102"+
+    "\46\0\1\103\33\0\1\104\36\0\40\56\1\105\5\0"+
+    "\1\106\70\0\1\107\23\0\1\110\41\0\1\111\41\0"+
+    "\1\76\40\0\1\112\42\0\1\113\32\0\1\114\3\0"+
+    "\1\115\42\0\1\116\33\0\1\117\64\0\1\120\15\0"+
+    "\1\121\52\0\1\122\31\0\1\123\53\0\1\124\27\0"+
+    "\1\116\43\0\1\125\47\0\1\126\31\0\1\127\37\0"+
+    "\1\130\37\0\1\131\51\0\1\132\46\0\1\133\34\0"+
+    "\1\134\37\0\1\135\47\0\1\136\37\0\1\137\15\0"+
+    "\1\137\11\0\1\140\43\0\1\141\43\0\1\142\42\0"+
+    "\1\143\50\0\1\144\41\0\1\100\34\0\1\145\43\0"+
+    "\1\146\35\0\1\147\35\0\1\150\44\0\1\151\50\0"+
+    "\1\152\35\0\1\153\46\0\1\154\24\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1846];
+    int [] result = new int[2822];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -183,13 +192,14 @@ class TolkLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\13\1\1\11\4\1\10\0\1\1\4\0"+
-    "\1\1\1\11\6\0\1\11\7\0\1\11\6\0\1\1"+
-    "\3\0\1\11\5\0\1\11\3\0\3\11\2\0\1\11"+
-    "\3\0\1\11\1\0\3\11\3\0\2\11\3\0\2\11";
+    "\1\0\1\11\15\1\2\11\6\1\14\0\1\1\4\0"+
+    "\1\1\1\11\6\0\2\11\5\0\1\11\5\0\1\11"+
+    "\6\0\1\1\3\0\1\11\4\0\1\11\2\0\1\11"+
+    "\3\0\2\11\2\0\1\11\3\0\2\11\1\0\3\11"+
+    "\3\0\2\11\3\0\2\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[92];
+    int [] result = new int[108];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -288,7 +298,7 @@ class TolkLexer implements java_cup.runtime.Scanner {
     char [] map = new char[0x10000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 90) {
+    while (i < 112) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -580,87 +590,103 @@ class TolkLexer implements java_cup.runtime.Scanner {
         case 1: 
           { 
           }
-        case 22: break;
+        case 26: break;
         case 2: 
           { return new Symbol(sym.PERIOD);
           }
-        case 23: break;
-        case 3: 
-          { return new Symbol(sym.GO);
-          }
-        case 24: break;
-        case 4: 
-          { return new Symbol(sym.ASSISTANT);
-          }
-        case 25: break;
-        case 5: 
-          { return new Symbol(sym.TILL);
-          }
-        case 26: break;
-        case 6: 
-          { return new Symbol(sym.SAY);
-          }
         case 27: break;
-        case 7: 
-          { return new Symbol(sym.BYEBYE);
+        case 3: 
+          { return new Symbol(sym.COMMA);
           }
         case 28: break;
-        case 8: 
-          { return new Symbol(sym.SOME_STRING, yytext());
+        case 4: 
+          { return new Symbol(sym.GO);
           }
         case 29: break;
-        case 9: 
-          { return new Symbol(sym.DIRECTION, Direction.EAST);
+        case 5: 
+          { return new Symbol(sym.ASSISTANT);
           }
         case 30: break;
-        case 10: 
-          { return (new Symbol(sym.BOOK));
+        case 6: 
+          { return new Symbol(sym.TILL);
           }
         case 31: break;
-        case 11: 
-          { return new Symbol(sym.TAKE);
+        case 7: 
+          { return new Symbol(sym.AND);
           }
         case 32: break;
-        case 12: 
-          { return new Symbol(sym.DROP);
+        case 8: 
+          { return new Symbol(sym.SAY);
           }
         case 33: break;
-        case 13: 
-          { return new Symbol(sym.DIRECTION, Direction.WEST);
+        case 9: 
+          { return (new Symbol(sym.PEN));
           }
         case 34: break;
-        case 14: 
-          { return new Symbol(sym.DIRECTION, Direction.SOUTH);
+        case 10: 
+          { return new Symbol(sym.BYEBYE);
           }
         case 35: break;
-        case 15: 
-          { return (new Symbol(sym.PROGP));
+        case 11: 
+          { return new Symbol(sym.SOME_STRING, yytext());
           }
         case 36: break;
-        case 16: 
-          { return new Symbol(sym.DIRECTION, Direction.NORTH);
+        case 12: 
+          { return new Symbol(sym.DIRECTION, Direction.EAST);
           }
         case 37: break;
-        case 17: 
-          { return (new Symbol(sym.LABNOTES));
+        case 13: 
+          { return new Symbol(sym.TAKE);
           }
         case 38: break;
-        case 18: 
-          { return (new Symbol(sym.NUMME));
+        case 14: 
+          { return (new Symbol(sym.BOOK));
           }
         case 39: break;
-        case 19: 
-          { return (new Symbol(sym.PROLOG));
+        case 15: 
+          { return new Symbol(sym.DROP);
           }
         case 40: break;
-        case 20: 
-          { return (new Symbol(sym.HASKELL));
+        case 16: 
+          { return new Symbol(sym.DIRECTION, Direction.WEST);
           }
         case 41: break;
-        case 21: 
-          { return new Symbol(sym.LECTURER);
+        case 17: 
+          { return new Symbol(sym.DIRECTION, Direction.SOUTH);
           }
         case 42: break;
+        case 18: 
+          { return (new Symbol(sym.PROGP));
+          }
+        case 43: break;
+        case 19: 
+          { return new Symbol(sym.GREET);
+          }
+        case 44: break;
+        case 20: 
+          { return new Symbol(sym.DIRECTION, Direction.NORTH);
+          }
+        case 45: break;
+        case 21: 
+          { return (new Symbol(sym.LABNOTES));
+          }
+        case 46: break;
+        case 22: 
+          { return (new Symbol(sym.NUMME));
+          }
+        case 47: break;
+        case 23: 
+          { return (new Symbol(sym.PROLOG));
+          }
+        case 48: break;
+        case 24: 
+          { return (new Symbol(sym.HASKELL));
+          }
+        case 49: break;
+        case 25: 
+          { return new Symbol(sym.LECTURER);
+          }
+        case 50: break;
         default: 
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;

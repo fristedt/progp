@@ -14,17 +14,23 @@ haskell	{ return (new Symbol(sym.HASKELL)); }
 prolog	{ return (new Symbol(sym.PROLOG)); }
 book	{ return (new Symbol(sym.BOOK)); }
 (lab)?notes	{ return (new Symbol(sym.LABNOTES));}
+pen { return (new Symbol(sym.PEN)); }
 progp	{ return (new Symbol(sym.PROGP)); }
 numme	{ return (new Symbol(sym.NUMME)); }
 
 /* Verb */
-go	{ return new Symbol(sym.GO); }
-take	{ return new Symbol(sym.TAKE); }
-drop	{ return new Symbol(sym.DROP); }
-say	{ return new Symbol(sym.SAY); }
+[Gg]o	{ return new Symbol(sym.GO); }
+([Gg]rab)|([Tt]ake)	{ return new Symbol(sym.TAKE); }
+[Dd]rop	{ return new Symbol(sym.DROP); }
+[Ss]ay	{ return new Symbol(sym.SAY); }
+[Gg]reet	{ return new Symbol(sym.GREET); }
 "."     { return new Symbol(sym.PERIOD); }
-to 	{ return new Symbol(sym.TILL); }
+","     { return new Symbol(sym.COMMA); }
+[Aa]nd  { return new Symbol(sym.AND); }
+[Tt]o 	{ return new Symbol(sym.TILL); }
 ([Gg]ood )?[bB]ye	{ return new Symbol(sym.BYEBYE); }
+[Qq]uit { return new Symbol(sym.BYEBYE); }
+[Ee]xit { return new Symbol(sym.BYEBYE); }
 
 /* Riktningar */
 north	{ return new Symbol(sym.DIRECTION, Direction.NORTH); }
