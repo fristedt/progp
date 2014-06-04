@@ -1,0 +1,92 @@
+//
+// CUP-grammar for a command parser
+// without any semantics!
+//
+
+/***  Terminaler    ******************************************************
+
+  These are the symbols that the lexer provides. These end up in a
+  file called sym.java.
+
+  For some terminals, there is a class name listed, defining what kind
+  of semantic value a terminal is associated with. 
+
+*/
+terminal	GO, TAKE, DROP, SAY, GREET; /* Verb */
+terminal        BOOK, LABNOTES, HASKELL, PROLOG, PROGP, NUMME, PEN; /* Things */
+terminal        ASSISTANT, LECTURER; /* Persons */
+terminal	TILL, PERIOD, AND, COMMA;
+terminal	DIRECTION; /* Where to go: north, etc */
+terminal	BYEBYE;
+terminal 	SOME_STRING;
+
+
+/***  Icke-terminaler    ******************************************************
+   
+  First a class name to define the type of the 
+  "semantic result" of a production rule, then 
+  a list of variables in the grammar.
+
+*/
+non terminal 	instruction;
+non terminal 	one_instruction, further_instruction;
+non terminal 	take_instr, drop_instr, go_instr, talk_instr;
+non terminal 	book, labnotes, thing;
+non terminal	person;
+
+start with instruction; /* Explicitly tell CUP what the top-level production is */
+
+
+/***   Grammar   ******************************************************/
+
+instruction	::= one_instruction PERIOD
+		  ;
+
+one_instruction ::= take_instr
+		  | drop_instr
+		  | go_instr
+		  | talk_instr
+		  | greet
+		  | further_instruction
+		  | BYEBYE
+		  ;
+further_instruction ::= AND one_instruction PERIOD
+			| COMMA further_instruction
+			;
+
+take_instr ::= TAKE thing
+	     ;
+
+drop_instr ::= DROP thing
+	     ;
+
+go_instr ::= GO DIRECTION
+	   ;
+
+talk_instr ::= SAY SOME_STRING TILL person
+	     ;
+
+thing ::= book
+	| labnotes
+	| pen
+	;
+
+book  ::= HASKELL BOOK
+	| PROLOG  BOOK
+	| BOOK
+	;	
+
+labnotes ::= PROGP LABNOTES
+	| NUMME LABNOTES
+	| LABNOTES
+	;
+
+person ::= LECTURER
+	| ASSISTANT
+	;
+
+pen ::= PEN
+	;
+
+greet ::= GREET
+		;

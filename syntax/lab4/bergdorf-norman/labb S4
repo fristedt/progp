@@ -1,0 +1,13 @@
+labb S4
+
+
+
+1) terminal	GO, TAKE, DROP, SAY; /* Verb */
+terminal        BOOK, LABNOTES, HASKELL, PROLOG, PROGP, NUMME; /* Things */
+terminal        ASSISTANT, LECTURER; /* Persons */
+terminal	TILL, PERIOD;
+terminal Direction DIRECTION; /* Where to go: north, etc */
+terminal	BYEBYE;
+terminal String	SOME_STRING;
+
+2) 

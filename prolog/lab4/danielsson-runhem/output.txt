@@ -1,0 +1,5 @@
+?- ex3(L, G), choose_primer(L, G, R), sumlist(R,S).
+L = 6,
+G = [pri(a1, [1, 2]), pri(b1, [3, 4]), pri(c1, [5, 6]), pri(a2, [3, 5]), pri(b2, [2, 6]), pri(c2, [1, 4])],
+R = [0, 1, 0, 1, 1, 0],
+S = 3 .

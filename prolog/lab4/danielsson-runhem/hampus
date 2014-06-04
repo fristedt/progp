@@ -1,0 +1,9 @@
+o Klarar ert program de två sista lösningarna?
+
+o Snyggt med matematisk notation från linalgen; gles matris o.s.v.
+
+o Lösningen fungerar genom att man bildar N indikator variabler I, och en matris J som används för knyta samman indikatorvariablerna med de olika primerserna. Sedan kräver man av CLPFD att summan av alla olika indikatorvariabler är så liten som möjligt och att varje rad i J har en summa över 0.
+
+o Väldigt lik Pers ansatts vilket är bra. Största skillnaden är i hur bokföringen av indikatorvariabler sker.
+
+o Bra kommentarer.

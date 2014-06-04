@@ -1,0 +1,26 @@
+?- ex1(N P, choose_primer(N P S), !, length(S 3).
+S = [2, 4, 6].
+
+?- ex2(N, P), choose_primer(N, P, S), !, length(S, 3).
+S = [2, 4, 6].
+
+?- ex3(N, P), choose_primer(N, P, S), !, length(S, 3).
+S = [2, 4, 5].
+
+?- ex4(N, P), choose_primer(N, P, S), !, length(S, 4).
+S = [2, 4, 5, 7].
+
+?- ex5(N, P), choose_primer(N, P, S), !, length(S, 4).
+S = [2, 4, 5, 7].
+
+?- ex6(N, P), choose_primer(N, P, S), !, length(S, 5).
+S = [2, 3, 4, 6, 7].
+
+?- ex7(N, P), choose_primer(N, P, S), !, length(S, 3).
+S = [11, 12, 13].
+
+?- ex8(N, P), choose_primer(N, P, S), !, length(S, 16).
+S = [4, 8, 13, 15, 16, 17, 21, 23, 24|...].
+
+?- ex9(N, P), choose_primer(N, P, S), !, length(S, 28).
+S = [2, 4, 5, 7, 8, 9, 10, 11, 14|...].

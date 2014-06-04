@@ -1,0 +1,28 @@
+?- translateDansk([tjugofem], X).
+false.
+
+?- translateDansk([noll], X).
+false.
+
+?- translateDansk([null], X).
+false.
+
+?- translateDansk([nul, en], X).
+false.
+
+?- translateDansk([kameloso], X).
+false.
+
+?- translateDansk([to, sindstyve], X).
+false.
+
+?- translateDansk([tres, sindstyve, sindstyve], X).
+false.
+
+?- testTranslation([[nul], [en], [to], [tre], [fire], [fem], [seks], [syv], [otte], [ni], [ti], [ellve], [tolv], [tretten], [fjorten], [femten], [seksten], [sytten], [atten], [nitten], [tyve], [en, og, tyve], [to, og, tyve], [tre, og, tyve], [fire, og, tyve], [fem, og, tyve], [seks, og, tyve], [syv, og, tyve], [otte, og, tyve], [ni, og, tyve], [tredive], [en, og, tredive], [to, og, tredive], [tre, og, tredive], [fire, og, tredive], [fem, og, tredive], [seks, og, tredive], [syv, og, tredive], [otte, og, tredive], [ni, og, tredive], [fyrre], [en, og, fyrre], [to, og, fyrre], [tre, og, fyrre], [fire, og, fyrre], [fem, og, fyrre], [seks, og, fyrre], [syv, og, fyrre], [otte, og, fyrre], [ni, og, fyrre], [halv, tres], [en, og, halv, tres], [to, og, halv, tres], [tre, og, halv, tres], [fire, og, halv, tres, sindstyve], [fem, og, halv, tres], [seks, og, halv, tres, sindstyve], [syv, og, halv, tres], [otte, og, halv, tres], [ni, og, halv, tres], [tres], [en, og, tres], [to, og, tres], [tre, og, tres], [fire, og, tres], [fem, og, tres, sindstyve], [seks, og, tres], [syv, og, tres, sindstyve], [otte, og, tres], [ni, og, tres], [halv, fjerds], [en, og, halv, fjerds], [to, og, halv, fjerds], [tre, og, halv, fjerds], [fire, og, halv, fjerds], [fem, og, halv, fjerds], [seks, og, halv, fjerds, sindstyve], [syv, og, halv, fjerds], [otte, og, halv, fjerds], [ni, og, halv, fjerds], [firs], [en, og, firs], [to, og, firs, sindstyve], [tre, og, firs], [fire, og, firs], [fem, og, firs, sindstyve], [seks, og, firs], [syv, og, firs], [otte, og, firs], [ni, og, firs], [halv, fems, sindstyve], [en, og, halv, fems], [to, og, halv, fems], [tre, og, halv, fems], [fire, og, halv, fems], [fem, og, halv, fems], [seks, og, halv, fems], [syv, og, halv, fems, sindstyve], [otte, og, halv, fems], [ni, og, halv, fems]]).
+0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,
+true .
+
+?- translateDansk([otte, og, tres], X).X = 68 .
+
+?- translateDansk(X, 68).X = [otte, og, tres] .

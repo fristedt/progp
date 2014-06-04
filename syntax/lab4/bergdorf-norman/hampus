@@ -1,0 +1,3 @@
+o Tolk.cup hanterar syntax och semantik. Syntax hanteras av olika terminaler. Vissa terminaler tilldelas en klass som bestämmer det semantiska värdet en terminal har, t.ex. Direction DIRECTION där Direction är den semantiska klassen och DIRECTION den syntaktiska terminalen.
+
+o TolkLexer.lex är den lexikala analystatorn. Den använder regex för att känna igen ord som matas in. jFlex konverterar denna fil till Javakod.
