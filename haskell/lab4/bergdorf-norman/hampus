@@ -1,0 +1,13 @@
+o main verkar hantera fallet då man ska läsa från stdin. Det verkar vara det enda fallet som fungerar med ett ghc-kompilerat program.
+
+o Den första f4 hanterar fallet med infil men ingen utfil. Den öppnar en fil i med ReadMode, och skickar alla rader till getTuples som (name, seq)-tupplar. Sen kastas tupplarna in i seqdata i omvänd ordning och därefter till distance matrix. Därefter skrivs allt ut.
+
+o Det andra f4 fungerar ungefär likadant fast skriver till fil.
+
+o Många bra kommentarer. Bra med testfall i huvudfilen också.
+
+o Jag får inte de olika f4-metoderna att fungera. Hur gjorde ni det?
+
+o Jag rekurserar manuellt över varje "klump" och kör string2seq, medan du använder seqdata (som man fick i F2) som använder map istället. Smart.
+
+o Det skulle vara bra om en kompilerad binär kan hantera alla tre fall som krävs.
